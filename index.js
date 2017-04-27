@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Admin Approval Microservice'))
 
 app.post('/', (req, res) => {
-	if (helpers.checkForSupervisor(req.body[0].CustomerID)) helpers.sendEmail(req.body)
+	helpers.sendEmail(helpers.checkForSupervisor(req.body[0].CustomerID))
 	res.end('yes');
 })
 
