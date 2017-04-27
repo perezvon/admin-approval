@@ -12,12 +12,10 @@ app.use(bodyParser.json());
 //support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.route('/')
-	.get((req, res) => res.send('Admin Approval Microservice'))
+app.get('/', (req, res) => res.send('Admin Approval Microservice'))
 
-
-app.post('/approve', (req, res) => {
-	console.log(req.body);
+app.post('/', (req, res) => {
+	res.send(JSON.stringify(req.body))
 	res.end('yes');
 })
 
