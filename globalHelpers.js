@@ -1,7 +1,8 @@
 function checkForSupervisor(customerID) {
-  var http = require("https");
+  let adminEmail = '';
+  const http = require("https");
 
-var options = {
+  const options = {
   "method": "GET",
   "hostname": "apirest.3dcart.com",
   "port": null,
@@ -16,8 +17,8 @@ var options = {
   }
 };
 
-var req = http.request(options, function (res) {
-  var chunks = [];
+  const req = http.request(options, function (res) {
+  let chunks = [];
 
   res.on("data", function (chunk) {
     chunks.push(chunk);
@@ -25,17 +26,19 @@ var req = http.request(options, function (res) {
 
   res.on("end", function () {
     var body = Buffer.concat(chunks);
-    console.log(body.toString());
+    console.log(body);
+    if (body.AdditionalField1) adminEmail = body.AdditionalField1;
   });
 });
 
 req.end();
-	//if (customer.adminEmailField) return true;
+	if (adminEmail) return adminEmail;
   return false;
 }
 
 function sendEmail(address) {
-	//do stuff
+	if (address) console.log(address)
+  else return false;
 }
 
 module.exports = {checkForSupervisor, sendEmail};
