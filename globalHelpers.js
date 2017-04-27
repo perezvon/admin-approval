@@ -38,11 +38,7 @@ function sendEmail(address) {
 
 // create reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-      user: 'john.a.maloney@gmail.com',
-      pass: process.env.EMAILPASS
-  }
+  streamTransport: true
 });
 
 // setup email data with unicode symbols
@@ -59,7 +55,7 @@ transporter.sendMail(mailOptions, (error, info) => {
   if (error) {
       return console.log(error);
   }
-  console.log('Message %s sent: %s', info.messageId, info.response);
+  console.log('Message %s sent: %s', info.messageId, info.envelope);
 });
   }
   else return false;
