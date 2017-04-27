@@ -11,10 +11,9 @@ app.use(bodyParser.json());
 
 //support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'www')));
 
 app.route('/')
-	.get((req, res) => res.json())
+	.get((req, res) => res.send('Admin Approval Microservice'))
 
 
 app.post('/approve', (req, res) => console.log(req.body))
