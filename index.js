@@ -15,7 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Admin Approval Microservice'))
 
 app.post('/', (req, res) => {
-	res.send(JSON.stringify(req.body))
+	res.write(JSON.stringify(req.body))
+	res.send()
 	res.end('yes');
 })
 
