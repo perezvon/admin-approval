@@ -1,4 +1,4 @@
-function checkForSupervisor(customerID) {
+function checkForSupervisor(customerID, callback) {
   const http = require("https");
   console.log(process.env.KEY)
   const options = {
@@ -26,7 +26,7 @@ function checkForSupervisor(customerID) {
   res.on("end", function () {
     var body = Buffer.concat(chunks);
     const user = JSON.parse(body.toString())[0];
-    return user.AdditionalField1;
+    return callback(user.AdditionalField1);
   });
 });
 
