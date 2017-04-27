@@ -1,5 +1,4 @@
 function checkForSupervisor(customerID) {
-  let adminEmail = '';
   const http = require("https");
 
   const options = {
@@ -28,18 +27,15 @@ function checkForSupervisor(customerID) {
     var body = Buffer.concat(chunks);
     const user = JSON.parse(body.toString())[0];
     console.log('additionalField1: ' + user.AdditionalField1)
-    adminEmail = user.AdditionalField1;
+    return user.AdditionalField1;
   });
 });
 
 req.end();
-console.log('adminEmail: ' + adminEmail)
-	if (adminEmail) return adminEmail;
-  return false;
 }
 
 function sendEmail(address) {
-	if (address) console.log(address)
+	if (address) console.log('address: ' + address)
   else return false;
 }
 
