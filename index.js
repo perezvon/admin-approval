@@ -2,6 +2,9 @@
 
 var express = require('express')
 var bodyParser = require('body-parser')
+
+var helpers = require('./globalHelpers.js')
+
 const app = express()
 
 const port = process.env.PORT || 3000;
@@ -15,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Admin Approval Microservice'))
 
 app.post('/', (req, res) => {
-	res.write(JSON.stringify(req.body))
-	res.send()
+	if (checkForSupervisor(req.body)) sendEmail(req.body)
+	console.log(req.body)
 	res.end('yes');
 })
 
