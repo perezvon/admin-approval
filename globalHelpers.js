@@ -1,6 +1,6 @@
 function checkForSupervisor(customerID) {
   const http = require("https");
-
+  console.log(process.env.KEY)
   const options = {
   "method": "GET",
   "hostname": "apirest.3dcart.com",
@@ -10,8 +10,8 @@ function checkForSupervisor(customerID) {
     "accept": "application/json",
     "content-type": "application/json;charset=UTF-8",
     "secureurl": "https://717418968211.3dcart.net",
-    "token": "87dcb88f1619747fd8398aa6731cac15",
-    "privatekey": "be6a6060c5b8d34baff6fef2d5902529",
+    "token": process.env.TOKEN,
+    "privatekey": process.env.KEY,
     "cache-control": "no-cache"
   }
 };
@@ -26,7 +26,6 @@ function checkForSupervisor(customerID) {
   res.on("end", function () {
     var body = Buffer.concat(chunks);
     const user = JSON.parse(body.toString())[0];
-    console.log('additionalField1: ' + user.AdditionalField1)
     return user.AdditionalField1;
   });
 });
