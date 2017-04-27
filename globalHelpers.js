@@ -27,12 +27,13 @@ function checkForSupervisor(customerID) {
   res.on("end", function () {
     var body = Buffer.concat(chunks);
     const user = JSON.parse(body.toString())[0];
-    console.log(user)
+    console.log('additonalField1: ' + user.AdditionalField1)
     if (user.AdditionalField1) adminEmail = user.AdditionalField1;
   });
 });
 
 req.end();
+console.log('adminEmail: ' + adminEmail)
 	if (adminEmail) return adminEmail;
   return false;
 }
