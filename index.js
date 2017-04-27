@@ -18,10 +18,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Admin Approval Microservice'))
 
 app.post('/', (req, res) => {
-	helpers.sendEmail(helpers.checkForSupervisor(req.body[0].CustomerID, function(x) {
-		console.log(x);
-		return x;
-	}))
+	const adminEmail = helpers.checkForSupervisor(req.body[0].CustomerID, function(x) {return x;}))
+	console.log('adminEmail: ' + adminEmail);
+	//helpers.sendEmail(adminEmail);
 	res.end('yes');
 })
 
