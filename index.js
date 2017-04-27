@@ -16,7 +16,10 @@ app.route('/')
 	.get((req, res) => res.send('Admin Approval Microservice'))
 
 
-app.post('/approve', (req, res) => console.log(req.body))
+app.post('/approve', (req, res) => {
+	console.log(req.body);
+	res.end('yes');
+})
 
 app.listen(port, function() {
     console.log('App listening on port ' + port);
