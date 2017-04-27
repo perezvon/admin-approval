@@ -27,8 +27,8 @@ function checkForSupervisor(customerID) {
   res.on("end", function () {
     var body = Buffer.concat(chunks);
     const user = JSON.parse(body.toString())[0];
-    console.log('additonalField1: ' + user.AdditionalField1)
-    if (user.AdditionalField1) adminEmail = user.AdditionalField1;
+    console.log('additionalField1: ' + user.AdditionalField1)
+    adminEmail = user.AdditionalField1;
   });
 });
 
