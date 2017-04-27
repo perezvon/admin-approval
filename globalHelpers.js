@@ -1,6 +1,5 @@
 function checkForSupervisor(customerID, callback) {
   const http = require("https");
-  console.log(process.env.KEY)
   const options = {
   "method": "GET",
   "hostname": "apirest.3dcart.com",
