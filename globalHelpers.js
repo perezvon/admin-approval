@@ -26,7 +26,7 @@ function checkForSupervisor(customerID, callback) {
 
   res.on("end", function () {
       var body = Buffer.concat(chunks);
-      if (body) {
+      if (body && !!body.toString()) {
         const user = JSON.parse(body.toString())[0];
         return callback(user.AdditionalField1);
       }
