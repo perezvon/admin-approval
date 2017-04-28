@@ -1,10 +1,12 @@
+require('dotenv').load();
+
 function checkForSupervisor(customerID, callback) {
   const http = require("https");
   const options = {
   "method": "GET",
   "hostname": "apirest.3dcart.com",
   "port": null,
-  "path": "/3dCartWebAPI/v1/Customers/2",
+  "path": "/3dCartWebAPI/v1/Customers/" + customerID,
   "headers": {
     "accept": "application/json",
     "content-type": "application/json;charset=UTF-8",
@@ -23,9 +25,11 @@ function checkForSupervisor(customerID, callback) {
   });
 
   res.on("end", function () {
-    var body = Buffer.concat(chunks);
-    const user = JSON.parse(body.toString())[0];
-    return callback(user.AdditionalField1);
+    if (chunks !== []) {
+      var body = Buffer.concat(chunks);
+      const user = JSON.parse(body.toString())[0];
+      return callback(user.AdditionalField1);
+    }
   });
 });
 
@@ -34,7 +38,15 @@ req.end();
 
 function approvalNeeded(address, orderInfo) {
 	if (address) {
+    const EmailTemplate = require('email-templates').EmailTemplate
+    const path = require('path')
+
+    const templateDir = path.join(__dirname, 'templates', 'approval')
+
+    const htmlTemplate = new EmailTemplate(templateDir);
+
     const nodemailer = require('nodemailer');
+
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
       service: 'mailgun',
@@ -44,14 +56,15 @@ function approvalNeeded(address, orderInfo) {
    }
     });
 
-    // setup email data with unicode symbols
-    let mailOptions = {
-      from: '"Aspen Mills" <orders@aspenmills.com>', // sender address
-      to: address, // list of receivers
-      subject: 'Approval Needed - Order #' + orderInfo.InvoiceNumberPrefix + orderInfo.InvoiceNumber, // Subject line
-      text: 'Hello world ?', // plain text body
-      html: '<b>Hello world ?</b>' // html body
-    };
+    htmlTemplate.render(orderInfo, function (err, result) {
+
+      let mailOptions = {
+        from: '"Aspen Mills" <orders@aspenmills.com>',
+        to: address, // list of receivers
+        subject: 'Approval Needed - Order #' + orderInfo.InvoiceNumberPrefix + orderInfo.InvoiceNumber,
+        text: result.text,
+        html: result.html
+      };
 
     // send mail with defined transport object
     transporter.sendMail(mailOptions, (error, info) => {
@@ -60,6 +73,11 @@ function approvalNeeded(address, orderInfo) {
       }
       console.log('Message %s sent: %s', info.messageId, info.response);
       });
+
+    })
+
+    //make PUT request to keep the order in Awaiting Approval(8) status until approval, then either Processing(2) or Denied(9)
+
   }
   else return false;
 }

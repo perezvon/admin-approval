@@ -18,10 +18,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Admin Approval Microservice'))
 
 app.post('/', (req, res) => {
+	console.log(req.body[0].CustomerID)
 	helpers.checkForSupervisor(req.body[0].CustomerID, adminEmail => {
 		helpers.approvalNeeded(adminEmail, req.body[0]);
 	});
 	res.end('yes');
+})
+
+app.post('/approve', (req, res) => {
+	//mark order as approved
 })
 
 app.listen(port, function() {
