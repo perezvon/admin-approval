@@ -32,7 +32,7 @@ function checkForSupervisor(customerID, callback) {
 req.end();
 }
 
-function sendEmail(address) {
+function approvalNeeded(address) {
 	if (address) {
     const nodemailer = require('nodemailer');
 
@@ -47,9 +47,9 @@ function sendEmail(address) {
 
     // setup email data with unicode symbols
     let mailOptions = {
-      from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
+      from: '"Aspen Mills" <orders@aspenmills.com>', // sender address
       to: address, // list of receivers
-      subject: 'Hello ✔', // Subject line
+      subject: 'Approval Needed', // Subject line
       text: 'Hello world ?', // plain text body
       html: '<b>Hello world ?</b>' // html body
     };
@@ -65,4 +65,4 @@ function sendEmail(address) {
   else return false;
 }
 
-module.exports = {checkForSupervisor, sendEmail};
+module.exports = {checkForSupervisor, approvalNeeded};
