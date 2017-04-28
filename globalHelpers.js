@@ -36,27 +36,31 @@ function sendEmail(address) {
 	if (address) {
     const nodemailer = require('nodemailer');
 
-// create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport({
-  streamTransport: true
-});
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+      service: 'mailgun',
+   auth: {
+       user: 'postmaster@sandboxcecd061e83ab42d59d93430372fe85f5.mailgun.org',
+       pass: '31d0ff2e9126fa3bd2611fe4d5266a80'
+   }
+    });
 
-// setup email data with unicode symbols
-let mailOptions = {
-  from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
-  to: address, // list of receivers
-  subject: 'Hello ✔', // Subject line
-  text: 'Hello world ?', // plain text body
-  html: '<b>Hello world ?</b>' // html body
-};
+    // setup email data with unicode symbols
+    let mailOptions = {
+      from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
+      to: address, // list of receivers
+      subject: 'Hello ✔', // Subject line
+      text: 'Hello world ?', // plain text body
+      html: '<b>Hello world ?</b>' // html body
+    };
 
-// send mail with defined transport object
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) {
-      return console.log(error);
-  }
-  console.log('Message %s sent: %s', info.messageId, info.envelope);
-});
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          return console.log(error);
+      }
+      console.log('Message %s sent: %s', info.messageId, info.envelope);
+      });
   }
   else return false;
 }
