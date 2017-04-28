@@ -25,11 +25,11 @@ function checkForSupervisor(customerID, callback) {
   });
 
   res.on("end", function () {
-    if (chunks !== []) {
       var body = Buffer.concat(chunks);
-      const user = JSON.parse(body.toString())[0];
-      return callback(user.AdditionalField1);
-    }
+      if (body) {
+        const user = JSON.parse(body.toString())[0];
+        return callback(user.AdditionalField1);
+      }
   });
 });
 
