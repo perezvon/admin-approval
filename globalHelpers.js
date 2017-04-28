@@ -32,10 +32,9 @@ function checkForSupervisor(customerID, callback) {
 req.end();
 }
 
-function approvalNeeded(address) {
+function approvalNeeded(address, orderInfo) {
 	if (address) {
     const nodemailer = require('nodemailer');
-
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
       service: 'mailgun',
@@ -49,7 +48,7 @@ function approvalNeeded(address) {
     let mailOptions = {
       from: '"Aspen Mills" <orders@aspenmills.com>', // sender address
       to: address, // list of receivers
-      subject: 'Approval Needed', // Subject line
+      subject: 'Approval Needed - Order #' + orderInfo.InvoiceNumberPrefix + orderInfo.InvoiceNumber, // Subject line
       text: 'Hello world ?', // plain text body
       html: '<b>Hello world ?</b>' // html body
     };
@@ -59,7 +58,7 @@ function approvalNeeded(address) {
       if (error) {
           return console.log(error);
       }
-      console.log('Message %s sent: %s', info.messageId, info.envelope);
+      console.log('Message %s sent: %s', info.messageId, info.response);
       });
   }
   else return false;
