@@ -1,6 +1,7 @@
 require('dotenv').load();
 
 function checkForSupervisor(customerID, callback) {
+  console.log(customerID)
   const http = require("https");
   const options = {
     "method": "GET",
