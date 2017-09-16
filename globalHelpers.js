@@ -3,19 +3,19 @@ require('dotenv').load();
 function checkForSupervisor(customerID, callback) {
   const http = require("https");
   const options = {
-  "method": "GET",
-  "hostname": "apirest.3dcart.com",
-  "port": null,
-  "path": "/3dCartWebAPI/v1/Customers/" + customerID,
-  "headers": {
-    "accept": "application/json",
-    "content-type": "application/json;charset=UTF-8",
-    "secureurl": "https://717418968211.3dcart.net",
-    "token": process.env.TOKEN,
-    "privatekey": process.env.KEY,
-    "cache-control": "no-cache"
-  }
-};
+    "method": "GET",
+    "hostname": "apirest.3dcart.com",
+    "port": null,
+    "path": "/3dCartWebAPI/v1/Customers/" + customerID,
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json;charset=UTF-8",
+      "secureurl": "https://aspenmills-com.3dcartstores.com/",
+      "token": process.env.TOKEN,
+      "privatekey": process.env.KEY,
+      "cache-control": "no-cache"
+    }
+  };
 
   const req = http.request(options, function (res) {
   let chunks = [];
@@ -27,6 +27,7 @@ function checkForSupervisor(customerID, callback) {
   res.on("end", function () {
       var body = Buffer.concat(chunks);
       if (body && !!body.toString()) {
+        console.log(body)
         const user = JSON.parse(body.toString())[0];
         return callback(user.AdditionalField1);
       }
@@ -37,6 +38,7 @@ req.end();
 }
 
 function approvalNeeded(address, orderInfo) {
+  console.log(address, orderInfo)
 	if (address) {
     const EmailTemplate = require('email-templates').EmailTemplate
     const path = require('path')
@@ -51,8 +53,8 @@ function approvalNeeded(address, orderInfo) {
     let transporter = nodemailer.createTransport({
       service: 'mailgun',
    auth: {
-       user: 'postmaster@sandboxcecd061e83ab42d59d93430372fe85f5.mailgun.org',
-       pass: '31d0ff2e9126fa3bd2611fe4d5266a80'
+       user: process.env.MAIL_USER,
+       pass: process.env.MAIL_PASS
    }
     });
 
