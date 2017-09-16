@@ -25,7 +25,7 @@ app.post('/', (req, res) => {
 })
 
 app.post('/approve', (req, res) => {
-	//mark order as approved
+	console.log(req.body)
 })
 
 app.listen(port, function() {
