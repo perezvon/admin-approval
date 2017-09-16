@@ -19,7 +19,6 @@ app.get('/', (req, res) => res.send('Admin Approval Microservice'))
 
 app.post('/', (req, res) => {
 	helpers.checkForSupervisor(req.body[0].CustomerID, adminEmail => {
-		console.log(adminEmail)
 		helpers.approvalNeeded(adminEmail, req.body[0]);
 	});
 	res.end('yes');

@@ -1,7 +1,6 @@
 require('dotenv').load();
 
 function checkForSupervisor(customerID, callback) {
-  console.log(customerID)
   const http = require("https");
   const options = {
     "method": "GET",
@@ -28,7 +27,6 @@ function checkForSupervisor(customerID, callback) {
   res.on("end", function () {
       var body = Buffer.concat(chunks);
       if (body && !!body.toString()) {
-        console.log(body)
         const user = JSON.parse(body.toString())[0];
         return callback(user.AdditionalField1);
       }
@@ -39,7 +37,6 @@ req.end();
 }
 
 function approvalNeeded(address, orderInfo) {
-  console.log(address, orderInfo)
 	if (address) {
     const EmailTemplate = require('email-templates').EmailTemplate
     const path = require('path')
@@ -60,7 +57,6 @@ function approvalNeeded(address, orderInfo) {
     });
 
     htmlTemplate.render(orderInfo, function (err, result) {
-
       let mailOptions = {
         from: '"Aspen Mills" <orders@aspenmills.com>',
         to: address, // list of receivers
