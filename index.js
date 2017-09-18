@@ -25,7 +25,6 @@ app.post('/', (req, res) => {
 })
 
 app.get('/approve', (req, res) => {
-	console.log(req.query)
 	const approved = req.query.result;
 	const orderID = req.query.OrderID;
 	if (approved === 'true') {

@@ -105,7 +105,7 @@ function updateOrderStatus(orderID, status, callback) {
   };
 
   const req = http.request(options, function (res) {
-    console.log(res)
+    console.log(res.ok)
   });
 
 req.end();
