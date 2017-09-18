@@ -91,24 +91,31 @@ function updateOrderStatus(orderID, status, callback) {
     "hostname": "apirest.3dcart.com",
     "port": null,
     "path": "/3dCartWebAPI/v1/Orders/" + orderID,
-    "json": {
-      "headers": {
-        "accept": "application/json",
-        "content-type": "application/json;charset=UTF-8",
-        "secureurl": "https://aspenmills-com.3dcartstores.com/",
-        "token": process.env.TOKEN,
-        "privatekey": process.env.KEY,
-        "cache-control": "no-cache",
-      },
-      "OrderStatusID": status
+    "headers": {
+      "accept": "application/json",
+      "content-type": "application/json;charset=UTF-8",
+      "secureurl": "https://aspenmills-com.3dcartstores.com/",
+      "token": process.env.TOKEN,
+      "privatekey": process.env.KEY,
+      "cache-control": "no-cache",
     }
   };
 
   const req = http.request(options, function (res) {
-    console.log(res.ok)
-  });
+      var chunks = [];
 
-req.end();
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+
+      res.on("end", function () {
+        var body = Buffer.concat(chunks);
+        console.log(body.toString());
+      });
+    });
+
+  req.write(JSON.stringify({ OrderStatusID: status }));
+  req.end();
 }
 
 module.exports = {checkForSupervisor, approvalNeeded, updateOrderStatus};
