@@ -37,6 +37,9 @@ req.end();
 }
 
 function approvalNeeded(address, orderInfo) {
+  //update order status to Awaiting Approval / On Hold
+  updateOrderStatus(orderInfo.OrderID, 6);
+  //send approval email
 	if (address) {
     const EmailTemplate = require('email-templates').EmailTemplate
     const path = require('path')
@@ -81,4 +84,31 @@ function approvalNeeded(address, orderInfo) {
   else return false;
 }
 
-module.exports = {checkForSupervisor, approvalNeeded};
+function updateOrderStatus(orderID, status, callback) {
+  const http = require("https");
+  const options = {
+    "method": "PUT",
+    "hostname": "apirest.3dcart.com",
+    "port": null,
+    "path": "/3dCartWebAPI/v1/Orders/" + orderID,
+    "json": {
+      "headers": {
+        "accept": "application/json",
+        "content-type": "application/json;charset=UTF-8",
+        "secureurl": "https://aspenmills-com.3dcartstores.com/",
+        "token": process.env.TOKEN,
+        "privatekey": process.env.KEY,
+        "cache-control": "no-cache",
+      },
+      "OrderStatusID": status
+    }
+  };
+
+  const req = http.request(options, function (res) {
+    console.log(res)
+  });
+
+req.end();
+}
+
+module.exports = {checkForSupervisor, approvalNeeded, updateOrderStatus};

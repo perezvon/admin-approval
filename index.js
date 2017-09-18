@@ -24,8 +24,18 @@ app.post('/', (req, res) => {
 	res.end('yes');
 })
 
-app.post('/approve', (req, res) => {
-	console.log(req.body)
+app.get('/approve', (req, res) => {
+	console.log(req.query)
+	const approved = req.query.result;
+	const orderID = req.query.OrderID;
+	if (approved === 'true') {
+		helpers.updateOrderStatus(orderID, 8)
+		res.send('request approved!')
+	} else {
+		helpers.updateOrderStatus(orderID, 9)
+		res.send('request denied.')
+	}
+	//
 })
 
 app.listen(port, function() {
