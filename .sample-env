@@ -3,4 +3,5 @@ KEY=fakeKey
 MAIL_USER=mailserviceusername(e.g. postmaster2134@mailgun.com)
 MAIL_PASS=pw
 API_URL=url
+APPROVE_URL=url
 QM_EMAIL=email

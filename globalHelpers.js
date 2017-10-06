@@ -112,6 +112,7 @@ function approvalNeeded(address, orderInfo) {
   //update order status to Awaiting Approval / On Hold
   updateOrderStatus(orderInfo.OrderID, 6);
   //send approval email
+  orderInfo.url = process.env.APPROVE_URL
   const options = {
     from: '"Aspen Mills" <orders@aspenmills.com>',
     to: address, // list of receivers
