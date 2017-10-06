@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Admin Approval Microservice'))
 
 app.post('/', (req, res) => {
+	console.log(req.body)
 	const orderData = req.body[0] ? req.body[0] : req.body;
 	//check for supervisor function not currently needed; using static env variable QM_EMAIL to send approve/deny
 	//helpers.checkForSupervisor(orderData.CustomerID, adminEmail => {
