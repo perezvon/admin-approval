@@ -20,11 +20,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Admin Approval Microservice'))
 
 app.post('/', (req, res) => {
-	console.log(req.body)
 	const orderData = req.body[0] ? req.body[0] : req.body;
 	//check for supervisor function not currently needed; using static env variable QM_EMAIL to send approve/deny
 	//helpers.checkForSupervisor(orderData.CustomerID, adminEmail => {
 		helpers.approvalNeeded(process.env.QM_EMAIL, orderData);
+	//});
+	res.end('yes');
+})
+
+app.post('/healtheast', (req, res) => {
+	const orderData = req.body[0] ? req.body[0] : req.body;
+	//check for supervisor function not currently needed; using url path to set approve/deny address
+	//helpers.checkForSupervisor(orderData.CustomerID, adminEmail => {
+		helpers.approvalNeeded('john@distantbluesoftware.com', orderData);
 	//});
 	res.end('yes');
 })
@@ -49,7 +57,7 @@ app.post('/approve', (req, res) => {
 	helpers.getOrderInfo(OrderID, order => {
 		order.comment = comment
 		const options = {
-			from: '"Aspen Mills" <orders@aspenmills.com>',
+			from: '"Aspen Mills" <no-reply@aspenmills.com>',
 			to: address, // list of receivers
 			subject: 'Order Denied - Order #' + orderNumber
 		}

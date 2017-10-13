@@ -114,7 +114,7 @@ function approvalNeeded(address, orderInfo) {
   //send approval email
   orderInfo.url = process.env.APPROVE_URL
   const options = {
-    from: '"Aspen Mills" <orders@aspenmills.com>',
+    from: '"Aspen Mills" <no-reply@aspenmills.com>',
     to: address, // list of receivers
     subject: 'Approval Needed - Order #' + orderInfo.InvoiceNumberPrefix + orderInfo.InvoiceNumber
   }
