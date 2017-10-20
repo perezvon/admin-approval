@@ -17,6 +17,6 @@ $(document).ready(() => {
   document.getElementById('email').value = getUrlParameter('email')
   document.getElementById('orderID').value = getUrlParameter('OrderID')
   document.getElementById('orderNumber').value = getUrlParameter('orderNumber')
-  document.getElementById('orderNumberSpan').value = getUrlParameter('orderNumber')
-  document.getElementById('employeeName').value = getUrlParameter('name')
+  document.getElementById('orderNumberSpan').html = getUrlParameter('orderNumber')
+  document.getElementById('employeeName').html = getUrlParameter('name')
 })
